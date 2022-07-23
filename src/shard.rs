@@ -70,7 +70,7 @@ where
         Self::HashBuilder: BuildHasher,
     {
         let hash = hash_key(&self.hash_builder, &key);
-        self.shards[hash as usize & self.shards.len() - 1].shard_insert(key, value, hash, charge)
+        self.shards[hash as usize & (self.shards.len() - 1)].shard_insert(key, value, hash, charge)
     }
 
     fn lookup(&self, key: &Self::Key) -> Option<Box<dyn CacheHandle<Value = Self::Value> + '_>>
@@ -79,7 +79,7 @@ where
         Self::HashBuilder: BuildHasher,
     {
         let hash = hash_key(&self.hash_builder, &key);
-        self.shards[hash as usize & self.shards.len() - 1].shard_lookup(key, hash)
+        self.shards[hash as usize & (self.shards.len() - 1)].shard_lookup(key, hash)
     }
 
     fn erase(&self, key: &Self::Key)
@@ -88,7 +88,7 @@ where
         Self::HashBuilder: BuildHasher,
     {
         let hash = hash_key(&self.hash_builder, &key);
-        self.shards[hash as usize & self.shards.len() - 1].shard_erase(key, hash)
+        self.shards[hash as usize & (self.shards.len() - 1)].shard_erase(key, hash)
     }
 
     fn prune(&self)
