@@ -98,3 +98,28 @@ where
         self.shards.iter().for_each(|s| s.shard_prune())
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::{Cache, ShardCache, LRU};
+
+    #[test]
+    fn simple() {
+        let cache = ShardCache::<LRU<i32, i32>>::new(4096, 4);
+        {
+            cache.insert(10, 10, 1);
+        }
+        {
+            let h1 = cache.lookup(&10);
+            assert!(h1.is_some());
+            assert_eq!(h1.as_ref().unwrap().value(), &10);
+            {
+                cache.insert(10, 11, 1);
+            }
+            assert_eq!(h1.unwrap().value(), &10);
+            let h2 = cache.lookup(&10);
+            assert!(h2.is_some());
+            assert_eq!(h2.unwrap().value(), &11);
+        }
+    }
+}
