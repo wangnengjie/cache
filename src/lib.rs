@@ -32,7 +32,7 @@ pub trait Cache: Send + Sync {
     type Value;
     type HashBuilder;
 
-    fn with_options(opts: Options<Self::HashBuilder>) -> Self
+    fn with_options(opts: &Options<Self::HashBuilder>) -> Self
     where
         Self::HashBuilder: Clone,
         Self: Sized;
@@ -67,7 +67,7 @@ pub trait CacheShard: Send + Sync {
     type Value;
     type HashBuilder;
 
-    fn shard_with_options(opts: Options<Self::HashBuilder>) -> Self
+    fn shard_with_options(opts: &Options<Self::HashBuilder>) -> Self
     where
         Self::HashBuilder: Clone,
         Self: Sized;

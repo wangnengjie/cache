@@ -30,14 +30,14 @@ where
         Self {
             shards: (0..num_shards)
                 .map(|_| {
-                    T::shard_with_options(Options {
+                    T::shard_with_options(&Options {
                         capacity: per_shard,
                         shard_bits: 0,
                         hash_builder: hash_builder.clone(),
                     })
                 })
                 .collect(),
-            hash_builder: hash_builder.clone(),
+            hash_builder,
         }
     }
 }
@@ -51,7 +51,7 @@ where
     type Value = T::Value;
     type HashBuilder = S;
 
-    fn with_options(opts: Options<S>) -> Self
+    fn with_options(opts: &Options<S>) -> Self
     where
         Self::HashBuilder: Clone,
         Self: Sized,

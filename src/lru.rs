@@ -106,7 +106,7 @@ impl<K, V> From<*mut LRUNode<K, V>> for NodePtr<K, V> {
 
 impl<K, V> Clone for NodePtr<K, V> {
     fn clone(&self) -> Self {
-        Self(self.0.clone())
+        Self(self.0)
     }
 }
 
@@ -265,7 +265,7 @@ where
     type Value = V;
     type HashBuilder = S;
 
-    fn shard_with_options(opts: Options<S>) -> Self
+    fn shard_with_options(opts: &Options<S>) -> Self
     where
         Self::HashBuilder: Clone,
     {
@@ -376,7 +376,7 @@ where
     type Value = V;
     type HashBuilder = S;
 
-    fn with_options(opts: Options<Self::HashBuilder>) -> Self
+    fn with_options(opts: &Options<Self::HashBuilder>) -> Self
     where
         Self::HashBuilder: Clone,
     {
